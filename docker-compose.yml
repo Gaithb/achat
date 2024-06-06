@@ -15,7 +15,7 @@ services:
   app-achat:
     depends_on:
       - mysqldb
-    image: emnamoufid/achat
+    image: emnamoufid/achat:1.0.0
     restart: on-failure
     ports:
       - 8089:8089
