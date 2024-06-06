@@ -28,5 +28,17 @@ pipeline {
                         sh 'mvn deploy'
                      }
                 }
+        stage('Docker image') {
+                    steps {
+                         sh 'docker build -t emnamoufid/achat:1.0.0 .'
+                                }
+                        }
+        stage('Docker HUB') {
+                    steps {
+                     sh 'docker login -u emnamoufid -p 07239991Amouna.'
+                                      sh 'docker push emnamoufid/achat:1.0.0'
+                                  }
+                              }
+
     }
 }
