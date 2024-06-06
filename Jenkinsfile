@@ -39,6 +39,11 @@ pipeline {
                                       sh 'docker push emnamoufid/achat:1.0.0'
                                   }
                               }
+        stage('Docker Compose') {
+                     steps{
+                      sh 'docker-compose up'
+                    }
+                }
 
     }
 }
