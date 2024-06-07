@@ -48,11 +48,7 @@ pipeline {
                          sh 'docker compose up -d'
                     }
                 }
-         stage('Run Prometheus') {
-            steps {
-                sh 'docker run -d --name prometheus-p -p 9090:9090 prom/prometheus'
-            }
-        }
+        
         stage('Grafana') {
             steps {
                 sh 'docker run -d --name=grafana -p 3000:3000 grafana/grafana'
