@@ -43,7 +43,9 @@ pipeline {
                               }
         stage('Docker Compose') {
                      steps{
-                      sh 'docker-compose up -d'
+                         sh 'docker-compose --version'
+                         sh 'docker-compose config'
+                         sh 'docker-compose up -d'
                     }
                 }
 
