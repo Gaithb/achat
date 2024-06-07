@@ -28,6 +28,13 @@ pipeline {
                         sh 'mvn deploy'
                      }
                 }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                   sh 'docker build --no-cache -t achatimage:v${BUILD_NUMBER} -f Dockerfile ./'
+                }
+            }
+        }
         stage('Push Docker Image') {
             steps {
                     sh 'echo docker2024 | docker login --username hibachemek --password-stdin'
