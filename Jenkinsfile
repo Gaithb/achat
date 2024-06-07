@@ -28,6 +28,11 @@ pipeline {
                         sh 'mvn deploy'
                      }
                 }
+        stage('Docker Compose') {
+                     steps{
+                         sh 'docker compose up -d'
+                    }
+                }
 
 
     }
