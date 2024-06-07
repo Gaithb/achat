@@ -30,7 +30,8 @@ pipeline {
                 }
         stage('Docker image') {
                     steps {
-                         sh 'docker build -t emnamoufid/achat'
+                         sh 'docker build -t emnamoufid/achat .'
+'
                                 }
                         }
         stage('Docker HUB') {
