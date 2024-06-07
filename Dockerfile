@@ -1,7 +1,4 @@
-stage('Build Docker Image') {
-            steps {
-                script {
-                   sh 'docker build --no-cache -t achat:v${BUILD_NUMBER} -f Dockerfile ./'
-                }
-            }
-        }
+FROM openjdk:17-jdk-alpine
+EXPOSE 8082
+ADD target/achat-1.0.jar achat-1.0.jar
+ENTRYPOINT ["java","-jar","/*.jar"]
