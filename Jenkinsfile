@@ -1,16 +1,34 @@
 pipeline {
     agent any
+
     stages {
-        stage('Checkout git') {
+        stage('mvn_clean') {
             steps {
-                echo 'Pulling...'
-                git branch: 'Gaith-branch', url: 'https://github.com/Gaithb/achat.git'
+                sh 'mvn clean'
             }
         }
-        stage('Testing Maven') {
+        stage('mvn_compile') {
             steps {
-                sh 'mvn -version'
+                sh 'mvn compile'
             }
         }
+        stage('SonarQube Analysis') {
+            steps {
+                sh "mvn sonar:sonar -Dsonar.host.url=http://192.168.50.4:9000 -Dsonar.login=admin -Dsonar.password=sonar"
+
+            }
+        }
+        stage('Mokito') {
+                    steps {
+                        sh 'mvn test'
+                    }
+                }
+        stage('Nexus') {
+                    steps {
+                        sh 'mvn deploy'
+                     }
+                }
+
+
     }
 }
