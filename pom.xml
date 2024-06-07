@@ -80,7 +80,7 @@
                 <version>${sonar-maven-plugin.version}</version>
             </plugin>
 		</plugins>
-					<distributionManagement>
+			<distributionManagement>
 				<repository>
 					<id>deploymentRepo</id>
 					<name>Nexus Repository</name>
