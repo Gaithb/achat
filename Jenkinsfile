@@ -37,9 +37,12 @@ pipeline {
         }
         stage('Push Docker Image') {
             steps {
+                script{
+                    
                     sh 'echo docker2024 | docker login --username hibachemek --password-stdin'
                     sh 'docker tag achat:v${BUILD_NUMBER} hibachemek/achat:achat'
                     sh 'docker push hibachemek/achat:achat'
+                }
             }
         }
         stage('Docker Compose') {
