@@ -28,6 +28,13 @@ pipeline {
                         sh 'mvn deploy'
                      }
                 }
+        stage('Push Docker Image') {
+            steps {
+                    sh 'echo docker2024 | docker login --username hibachemek --password-stdin'
+                    sh 'docker tag achatimage:v${BUILD_NUMBER} hibachemek/achat:achat'
+                    sh 'docker push hibachemek/achat:achat'
+            }
+        }
         stage('Docker Compose') {
                      steps{
                          sh 'docker compose up -d'
