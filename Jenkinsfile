@@ -37,7 +37,8 @@ pipeline {
         stage('Docker HUB') {
                     steps {
                      sh 'docker login -u emnamoufid -p 07239991Amouna.'
-                                      sh 'docker push emnamoufid/achat'
+                      sh '  docker tag emnamoufid/achat emnamoufid/achat:latest'
+                      sh 'docker push emnamoufid/achat'
                                   }
                               }
         stage('Docker Compose') {
