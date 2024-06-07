@@ -16,7 +16,7 @@
 		<java.version>11</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version> <!-- Updated SonarQube plugin version -->
-        <sonar.host.url>http://http://192.168.2.164/:9000</sonar.host.url>
+        <sonar.host.url>http://192.168.50.4:9000</sonar.host.url>
 		<sonar.token>squ_5588e5efd06ca9412073becccfd84af0182c56df</sonar.token>
 	</properties>
 	<dependencies>
@@ -85,7 +85,7 @@
 				<repository>
 					<id>deploymentRepo</id>
 					<name>Nexus Repository</name>
-					<url>http://192.168.2.164:8081/repository/maven-releases/</url>
+					<url>http://192.168.50.4:8081/repository/maven-releases/</url>
 				</repository>
 	</distributionManagement>
 </project>
