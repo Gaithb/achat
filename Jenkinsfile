@@ -62,18 +62,16 @@ pipeline {
             }
         }
         
-        stage('Docker Build') {
-            steps {
-                {
-                    def jarName = "achat-${BUILD_VERSION}.jar"
-                    sh "cp target/achat-1.9.jar target/${jarName}"  // Ensure the JAR file has the correct name
-                    sh "docker build -t docker.io/gaihdocker/achat:${BUILD_VERSION} ."
-                }
-             /*   script {
-             sh "docker build -t docker.io/gaihdocker/achat:${BUILD_VERSION} ."
-                } */
-            }
+stage('Docker Build') {
+    steps {
+        script {
+            def jarName = "achat-${BUILD_VERSION}.jar"
+            sh "cp target/achat-1.9.jar target/${jarName}"  // Assurez-vous que le fichier JAR a le nom correct
+            sh "docker build -t docker.io/gaihdocker/achat:${BUILD_VERSION} ."
         }
+    }
+}
+
 
         stage('Push Docker Image to DockerHub') {
             steps {
