@@ -65,7 +65,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    sh "docker build -t /app/achat:${BUILD_VERSION} ."
+                    sh "docker build -t app/achat:${BUILD_VERSION} ."
                 }
             }
         }
