@@ -104,24 +104,28 @@ stage('Docker Build') {
     post {
         success {
             mail bcc: '',
-                 body: """ Projet Devops Achat réussi - Numéro de build : ${env.BUILD_NUMBER}
+                 body: """ Hello,
+
+Your project to purchase or validate the module, DevOps class has failed. Please review it and find a solution to resolve this issue.
+
+Thank you for your understanding. : ${env.BUILD_NUMBER}
                             URL : "${env.BUILD_URL}"
                  """,
                  cc: '',
                  from: '',
                  replyTo: '',
-                 subject: "Projet Devops Achat réussi - Numéro de build : ${env.BUILD_NUMBER}",
+                 subject: "Pipeline Passed  - Build Number : ${env.BUILD_NUMBER}",
                  to: 'mohamedgaith.basly@esprit.tn'
         }
         failure {
             mail bcc: '',
-                 body: """ Projet Devops Achat échoué - Numéro de build : ${env.BUILD_NUMBER}
+                 body: """Pipeline Failed - Build Number : ${env.BUILD_NUMBER}
                             URL : "${env.BUILD_URL}"
                  """,
                  cc: '',
                  from: '',
                  replyTo: '',
-                 subject: "Projet Devops Achat échoué - Numéro de build : ${env.BUILD_NUMBER}",
+                 subject: "Pipeline Failed - Build Num : ${env.BUILD_NUMBER}",
                  to: 'mohamedgaith.basly@esprit.tn'
         }
     }
