@@ -65,8 +65,9 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                     sh "docker build -t gaihdocker/achat:${BUILD_VERSION} ."
-
+                    def jarName = "achat-${BUILD_VERSION}.jar"
+                    sh "cp target/achat-1.9.jar target/${jarName}"  // Ensure the JAR file has the correct name
+                    sh "docker build -t docker.io/gaihdocker/achat:${BUILD_VERSION} ."
                 }
             }
         }
