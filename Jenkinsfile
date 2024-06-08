@@ -56,7 +56,7 @@ pipeline {
 
         stage('Deploy to Nexus') {
             steps {
-                sh 'e6f0b273dff8'
+                sh 'docker start e6f0b273dff8'
                 echo 'Deploying to Nexus server'
                 sh 'mvn deploy'
             }
