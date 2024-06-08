@@ -106,10 +106,10 @@ stage('Docker Build') {
             mail bcc: '',
                  body: """ Hello,
 
-Your project to purchase or validate the module, DevOps class has failed. Please review it and find a solution to resolve this issue.
+Your project to purchase or validate the module, DevOps class has been successful. Congratulations on your excellent work.
 
-Thank you for your understanding. : ${env.BUILD_NUMBER}
-                            URL : "${env.BUILD_URL}"
+Sincerely,  
+                            URL-${env.BUILD_NUMBER} : "${env.BUILD_URL}"
                  """,
                  cc: '',
                  from: '',
@@ -119,8 +119,12 @@ Thank you for your understanding. : ${env.BUILD_NUMBER}
         }
         failure {
             mail bcc: '',
-                 body: """Pipeline Failed - Build Number : ${env.BUILD_NUMBER}
-                            URL : "${env.BUILD_URL}"
+                 body: """ Hello,
+
+Your project to purchase or validate the module, DevOps class has failed. Please review it and find a solution to resolve this issue.
+
+Thank you for your understanding. : 
+                            URL-${env.BUILD_NUMBER} : "${env.BUILD_URL}"
                  """,
                  cc: '',
                  from: '',
