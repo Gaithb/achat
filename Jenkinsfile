@@ -30,7 +30,7 @@ pipeline {
                 sh 'mvn package'
             }
         }       
-        
+
         stage('Run Tests with JaCoCo') {
             steps {
                 script {
@@ -39,17 +39,6 @@ pipeline {
                 }
             }
         }
-
-        // stage('Generate Report') {
-        //     steps {
-        //         script {
-        //             // Generate JaCoCo report
-        //             sh 'mvn org.jacoco:jacoco-maven-plugin:report'
-        //         }
-        //         // Archive JaCoCo report
-        //         archiveArtifacts artifacts: 'target/site/jacoco/*', fingerprint: true
-        //     }
-        // }
 
         stage('SonarQube Analysis') {
             steps {
@@ -102,39 +91,35 @@ pipeline {
                 }
             }
         }
-    }
+
         stage('Grafana') {
             steps {
                 sh 'docker start 8922def84c37'
             }
         }
-            stage('Grafana') {
-            steps {
-                sh 'docker start 585aa5fa539f'
-            }
-        }
-
+    }
+    
     post {
         success {
             mail bcc: '',
-                 body: """ Project Devops Achat Success - Build Number: ${env.BUILD_NUMBER}
-                            URL:"${env.BUILD_URL}"
+                 body: """ Projet Devops Achat réussi - Numéro de build : ${env.BUILD_NUMBER}
+                            URL : "${env.BUILD_URL}"
                  """,
                  cc: '',
                  from: '',
                  replyTo: '',
-                 subject: "Project Devops Achat Success - Build Number: ${env.BUILD_NUMBER}",
+                 subject: "Projet Devops Achat réussi - Numéro de build : ${env.BUILD_NUMBER}",
                  to: 'mohamedgaith.basly@esprit.tn'
         }
         failure {
             mail bcc: '',
-                 body: """ Project Devops Achat Failed - Build Number: ${env.BUILD_NUMBER}
-                            URL:"${env.BUILD_URL}"
+                 body: """ Projet Devops Achat échoué - Numéro de build : ${env.BUILD_NUMBER}
+                            URL : "${env.BUILD_URL}"
                  """,
                  cc: '',
                  from: '',
                  replyTo: '',
-                 subject: "Project Devops Achat Failed - Build Number: ${env.BUILD_NUMBER}",
+                 subject: "Projet Devops Achat échoué - Numéro de build : ${env.BUILD_NUMBER}",
                  to: 'mohamedgaith.basly@esprit.tn'
         }
     }
