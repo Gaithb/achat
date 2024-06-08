@@ -53,6 +53,8 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
+                sh 'sudo chmod 666 /var/run/docker.sock'
+                sh 'docker start d45da163b99d'
                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
             }
         }
@@ -65,6 +67,7 @@ pipeline {
 
         stage('Deploy to Nexus') {
             steps {
+                sh 'e6f0b273dff8'
                 echo 'Deploying to Nexus server'
                 sh 'mvn deploy'
             }
@@ -100,7 +103,16 @@ pipeline {
             }
         }
     }
-
+        stage('Grafana') {
+            steps {
+                sh 'docker start 8922def84c37'
+            }
+        }
+            stage('Grafana') {
+            steps {
+                sh 'docker start 585aa5fa539f'
+            }
+        }
 
     post {
         success {
