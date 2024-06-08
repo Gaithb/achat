@@ -7,11 +7,6 @@ pipeline {
                 sh 'mvn clean'
             }
         }
-        stage('install') {
-                    steps {
-                        sh 'mvn install'
-                    }
-                }
         stage('mvn_compile') {
             steps {
                 sh 'mvn compile'
