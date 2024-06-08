@@ -55,7 +55,7 @@ pipeline {
                 script {
                     // Restart existing Grafana and Prometheus containers
                     sh 'docker restart grafana'
-                    sh 'docker restart prometheus2'
+                    sh 'docker restart prometheus'
                 }
  
     }
