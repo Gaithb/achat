@@ -65,8 +65,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    sh 'docker build -t gaihdocker/gaihdocker/achat:1.9-b119 .'
-
+            sh "docker build -t docker.io/gaihdocker/achat:${BUILD_VERSION} ."
                 }
             }
         }
