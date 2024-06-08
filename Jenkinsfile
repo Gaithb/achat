@@ -7,7 +7,7 @@ pipeline {
                 sh 'mvn clean'
             }
         }
-        stage('Mokito') {
+        stage('install') {
                     steps {
                         sh 'mvn install'
                     }
