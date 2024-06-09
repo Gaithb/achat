@@ -6,7 +6,7 @@ pipeline {
         maven 'maven3'
     }
 
-    enbvironment {
+    environment {
         SCANNER_HOME = tool 'sonar-scanner'
     }
 
@@ -14,6 +14,11 @@ pipeline {
         stage('Git checkout') {
             steps {
                 git branch: 'stock-module-faresbouzayen', credentialsId: 'git-cred', url: 'https://github.com/Gaithb/achat.git'
+            }
+        }
+        stage('Clean install') {
+            steps {
+                sh 'mvn clean install'
             }
         }
         stage('Compile') {
@@ -38,11 +43,11 @@ pipeline {
                           $SCANNER_HOME/bin/sonar-scanner \
                           -Dsonar.projectName=achat-devops \
                           -Dsonar.projectKey=achat-devops \
-                          -Dsonar.java.binaries=.
+                          -Dsonar.java.binaries=target/classes
                     '''
+                 }
             }
         }
-    }
         stage('Quality Gate') {
             steps {
                 script {
@@ -77,8 +82,13 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                    sh "docker push -t ferisbouzayen/achat-devops:latest"
+                    sh "docker push ferisbouzayen/achat-devops:latest"
                 }
+            }
+        }
+        stage('finish') {
+            steps {
+                echo 'Finished successfully'
             }
         }
     }
