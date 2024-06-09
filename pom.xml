@@ -13,11 +13,9 @@
 	<name>achat</name>
 	<description>Projet pour le module DevOps</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version> <!-- Updated SonarQube plugin version -->
-        <sonar.host.url>http://http://192.168.2.164/:9000</sonar.host.url>
-		<sonar.token>squ_5588e5efd06ca9412073becccfd84af0182c56df</sonar.token>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -59,6 +57,17 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-testng</artifactId>
+			<version>0.5.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -82,7 +91,6 @@
 		</plugins>
 	</build>
 
-﻿
 
 <distributionManagement>
     <repository>
