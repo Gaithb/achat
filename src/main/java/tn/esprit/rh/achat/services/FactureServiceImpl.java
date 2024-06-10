@@ -43,7 +43,7 @@ public class FactureServiceImpl implements IFactureService {
 		return factureRepository.save(f);
 	}
 
-	private Facture addDetailsFacture(Facture f, Set<DetailFacture> detailsFacture) {
+	/* private Facture addDetailsFacture(Facture f, Set<DetailFacture> detailsFacture) {
 		float montantFacture = 0;
 		float montantRemise = 0;
 		for (DetailFacture detail : detailsFacture) {
@@ -62,7 +62,7 @@ public class FactureServiceImpl implements IFactureService {
 		f.setMontantFacture(montantFacture);
 		f.setMontantRemise(montantRemise);
 		return f;
-	}
+	} */
 
 	@Override
 	public void cancelFacture(Long factureId) {
