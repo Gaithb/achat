@@ -9,7 +9,6 @@ import tn.esprit.rh.achat.repositories.*;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Slf4j
@@ -103,7 +102,7 @@ public class FactureServiceImpl implements IFactureService {
 		float totalFacturesEntreDeuxDates = factureRepository.getTotalFacturesEntreDeuxDates(startDate, endDate);
 		float totalRecouvrementEntreDeuxDates = reglementService.getChiffreAffaireEntreDeuxDate(startDate, endDate);
 		if (totalFacturesEntreDeuxDates != 0) {
-			return (totalRecouvrementEntreDeuxDates / totalFacturesEntreDeuxDates) * 100;
+			return totalRecouvrementEntreDeuxDates / totalFacturesEntreDeuxDates * 100;
 		}
 		return 0;
 	}
