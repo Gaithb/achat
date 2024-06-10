@@ -17,28 +17,28 @@ import java.util.Set;
 public class FactureServiceImpl implements IFactureService {
 
 	@Autowired
-	FactureRepository factureRepository;
+	private FactureRepository factureRepository;
 	@Autowired
-	OperateurRepository operateurRepository;
+	private OperateurRepository operateurRepository;
 	@Autowired
-	DetailFactureRepository detailFactureRepository;
+	private DetailFactureRepository detailFactureRepository;
 	@Autowired
-	FournisseurRepository fournisseurRepository;
+	private FournisseurRepository fournisseurRepository;
 	@Autowired
-	ProduitRepository produitRepository;
-    @Autowired
-    ReglementServiceImpl reglementService;
-	
+	private ProduitRepository produitRepository;
+	@Autowired
+	private ReglementServiceImpl reglementService;
+
 	@Override
 	public List<Facture> retrieveAllFactures() {
-		List<Facture> factures = (List<Facture>) factureRepository.findAll();
+		List<Facture> factures = factureRepository.findAll();
 		for (Facture facture : factures) {
 			log.info(" facture : " + facture);
 		}
 		return factures;
 	}
 
-	
+
 	public Facture addFacture(Facture f) {
 		return factureRepository.save(f);
 	}
@@ -51,20 +51,22 @@ public class FactureServiceImpl implements IFactureService {
 		float montantFacture = 0;
 		float montantRemise = 0;
 		for (DetailFacture detail : detailsFacture) {
-			//Récuperer le produit 
-			Produit produit = produitRepository.findById(detail.getProduit().getIdProduit()).get();
-			//Calculer le montant total pour chaque détail Facture
-			float prixTotalDetail = detail.getQteCommandee() * produit.getPrix();
-			//Calculer le montant remise pour chaque détail Facture
-			float montantRemiseDetail = (prixTotalDetail * detail.getPourcentageRemise()) / 100;
-			float prixTotalDetailRemise = prixTotalDetail - montantRemiseDetail;
-			detail.setMontantRemise(montantRemiseDetail);
-			detail.setPrixTotalDetail(prixTotalDetailRemise);
-			//Calculer le montant total pour la facture
-			montantFacture = montantFacture + prixTotalDetailRemise;
-			//Calculer le montant remise pour la facture
-			montantRemise = montantRemise + montantRemiseDetail;
-			detailFactureRepository.save(detail);
+			//Récuperer le produit
+			Produit produit = produitRepository.findById(detail.getProduit().getIdProduit()).orElse(null);
+			if (produit != null) {
+				//Calculer le montant total pour chaque détail Facture
+				float prixTotalDetail = detail.getQteCommandee() * produit.getPrix();
+				//Calculer le montant remise pour chaque détail Facture
+				float montantRemiseDetail = (prixTotalDetail * detail.getPourcentageRemise()) / 100;
+				float prixTotalDetailRemise = prixTotalDetail - montantRemiseDetail;
+				detail.setMontantRemise(montantRemiseDetail);
+				detail.setPrixTotalDetail(prixTotalDetailRemise);
+				//Calculer le montant total pour la facture
+				montantFacture += prixTotalDetailRemise;
+				//Calculer le montant remise pour la facture
+				montantRemise += montantRemiseDetail;
+				detailFactureRepository.save(detail);
+			}
 		}
 		f.setMontantFacture(montantFacture);
 		f.setMontantRemise(montantRemise);
@@ -73,44 +75,46 @@ public class FactureServiceImpl implements IFactureService {
 
 	@Override
 	public void cancelFacture(Long factureId) {
-		// Méthode 01
-		//Facture facture = factureRepository.findById(factureId).get();
-		Facture facture = factureRepository.findById(factureId).orElse(new Facture());
-		facture.setArchivee(true);
-		factureRepository.save(facture);
-		//Méthode 02 (Avec JPQL)
-		factureRepository.updateFacture(factureId);
+		Facture facture = factureRepository.findById(factureId).orElse(null);
+		if (facture != null) {
+			facture.setArchivee(true);
+			factureRepository.save(facture);
+			//Méthode 02 (Avec JPQL)
+			factureRepository.updateFacture(factureId);
+		}
 	}
 
 	@Override
 	public Facture retrieveFacture(Long factureId) {
-
-		Facture facture = factureRepository.findById(factureId).orElse(null);
-		log.info("facture :" + facture);
-		return facture;
+		return factureRepository.findById(factureId).orElse(null);
 	}
 
 	@Override
 	public List<Facture> getFacturesByFournisseur(Long idFournisseur) {
 		Fournisseur fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
-		return (List<Facture>) fournisseur.getFactures();
+		if (fournisseur != null) {
+			return fournisseur.getFactures();
+		}
+		return null;
 	}
 
 	@Override
 	public void assignOperateurToFacture(Long idOperateur, Long idFacture) {
 		Facture facture = factureRepository.findById(idFacture).orElse(null);
 		Operateur operateur = operateurRepository.findById(idOperateur).orElse(null);
-		operateur.getFactures().add(facture);
-		operateurRepository.save(operateur);
+		if (facture != null && operateur != null) {
+			operateur.getFactures().add(facture);
+			operateurRepository.save(operateur);
+		}
 	}
 
 	@Override
 	public float pourcentageRecouvrement(Date startDate, Date endDate) {
 		float totalFacturesEntreDeuxDates = factureRepository.getTotalFacturesEntreDeuxDates(startDate,endDate);
-		float totalRecouvrementEntreDeuxDates =reglementService.getChiffreAffaireEntreDeuxDate(startDate,endDate);
-		float pourcentage=(totalRecouvrementEntreDeuxDates/totalFacturesEntreDeuxDates)*100;
-		return pourcentage;
+		float totalRecouvrementEntreDeuxDates = reglementService.getChiffreAffaireEntreDeuxDate(startDate,endDate);
+		if (totalFacturesEntreDeuxDates != 0) {
+			return (totalRecouvrementEntreDeuxDates / totalFacturesEntreDeuxDates) * 100;
+		}
+		return 0;
 	}
-	
-
 }
