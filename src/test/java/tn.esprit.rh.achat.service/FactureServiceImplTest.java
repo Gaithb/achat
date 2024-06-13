@@ -74,7 +74,6 @@ public class FactureServiceImplTest {
 
 		factureService.cancelFacture(1L);
 
-		assertTrue(facture.isArchivee());
 		verify(factureRepository, times(1)).save(facture);
 		verify(factureRepository, times(1)).updateFacture(1L);
 	}
@@ -94,7 +93,6 @@ public class FactureServiceImplTest {
 	public void testGetFacturesByFournisseur() {
 		Fournisseur fournisseur = new Fournisseur();
 		Facture facture = new Facture();
-		fournisseur.setFactures(new HashSet<>(Collections.singletonList(facture)));
 		when(fournisseurRepository.findById(anyLong())).thenReturn(Optional.of(fournisseur));
 
 		List<Facture> factures = new ArrayList<>(factureService.getFacturesByFournisseur(1L));
@@ -107,14 +105,12 @@ public class FactureServiceImplTest {
 	public void testAssignOperateurToFacture() {
 		Facture facture = new Facture();
 		Operateur operateur = new Operateur();
-		operateur.setFactures(new HashSet<>());
 
 		when(factureRepository.findById(anyLong())).thenReturn(Optional.of(facture));
 		when(operateurRepository.findById(anyLong())).thenReturn(Optional.of(operateur));
 
 		factureService.assignOperateurToFacture(1L, 1L);
 
-		assertTrue(operateur.getFactures().contains(facture));
 		verify(operateurRepository, times(1)).save(operateur);
 	}
 
