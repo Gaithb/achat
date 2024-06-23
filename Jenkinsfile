@@ -22,11 +22,16 @@ pipeline {
                            sh 'mvn test'
                        }
                    }
-        stage('nexsus') {
+        stage('Nexus') {
                                steps {
                                    sh 'mvn deploy'
                                }
                            }
+        stage('Building image') {
+                                       steps {
+                                           sh 'docker build -t imenbahrouni/achat:1.0.0 .'
+                                       }
+                                   }
 
 
     }
