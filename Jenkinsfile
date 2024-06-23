@@ -32,6 +32,14 @@ pipeline {
                                            sh 'docker build -t imenbahrouni/achat:1.0.0 .'
                                        }
                                    }
+        stage('Deploy image') {
+                                               steps {
+                                                   sh '''
+                                                   docker login -u imenbahrouni -p Simba3420.
+                                                   docker push imenbahrouni/achat:1.0.0
+                                                   '''
+                                               }
+                                           }
 
 
     }
